@@ -1,0 +1,5 @@
+plugin.xml_gen
+/src-gen/
+/xtend-gen/
+/.launch/
+.antlr-generator-*

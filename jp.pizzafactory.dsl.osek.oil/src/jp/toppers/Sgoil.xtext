@@ -1,0 +1,160 @@
+grammar jp.toppers.Sgoil with org.eclipse.xtext.common.Terminals
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+generate sgoil "http://www.toppers.jp/Sgoil"
+
+OILFile:
+	version=OILVersion implementation=ImplementationDefinition application=ApplicationDefinition;
+
+OILVersion:
+	"OIL_VERSION" "=" value=EString (description=EString)? SEMICOLON;
+
+ImplementationDefinition:
+	"IMPLEMENTATION" name=Name BLOCKBEGIN (implementationSpecs+=ImplementationSpec)+ BLOCKEND
+	(description=EString)? SEMICOLON;
+
+ImplementationSpec:
+	object=Object BLOCKBEGIN (implementations+=ImplementationDef)* BLOCKEND (":" description=EString)? SEMICOLON;
+
+Object:
+	T_OBJECT;
+
+terminal T_OBJECT:
+	"OS" | "TASK" | "COUNTER" | "ALARM" | "RESOURCE" | "EVENT" | "ISR" |
+	"MESSAGE" | "COM" | "NM" | "APPMODE" | "IPDU" | "NETWORKMESSAGE";
+
+ImplementationDef:
+	ImplAttrDef | ImplRefDef;
+
+ImplAttrDef:
+	ImplAttrIntDef | ImplAttrFloatDef | ImplAttrEnumDef | ImplAttrStringDef | ImplAttrBooleanDef;
+
+ImplAttrIntDef:
+	type=IntTypeEnum
+	(auto?="WITH_AUTO")? (range=Range)? name=AttributeName (multiple?=MultipleSpecifier)?
+	("=" (value=Number | default=DefaultEnum))? (":" description=EString)? SEMICOLON;
+
+enum IntTypeEnum:
+	UINT32 | INT32 | UINT64 | INT64;
+
+ImplAttrFloatDef:
+	"FLOAT"
+	(auto?="WITH_AUTO")? (range=Range)? name=AttributeName (multiple?=MultipleSpecifier)?
+	("=" (value=EFloat | default=DefaultEnum))? (":" description=EString)? SEMICOLON;
+
+ImplAttrEnumDef:
+	"ENUM"
+	(auto?="WITH_AUTO")? (enumeration=Enumeration)? name=AttributeName (multiple?=MultipleSpecifier)?
+	("=" (value=Name | default=DefaultEnum))? (":" description=EString)? SEMICOLON;
+
+ImplAttrStringDef:
+	"STRING"
+	(auto?="WITH_AUTO")? name=AttributeName (multiple?=MultipleSpecifier)?
+	("=" (value=EString | default=DefaultEnum))? (":" description=EString)? SEMICOLON;
+
+ImplAttrBooleanDef:
+	"BOOLEAN"
+	(auto?="WITH_AUTO")? ("[" T_TRUE (BLOCKBEGIN (trueParameterList+=ImplementationDef)* BLOCKEND)?
+	(trueDescription=EString)? ","
+	T_FALSE
+	(BLOCKBEGIN (falseParameterList+=ImplementationDef)* BLOCKEND)? (falseDescription=EString)? "]")? name=(Name | Object)
+	(multiple?=MultipleSpecifier)?
+	("=" (value=EBoolean | default=DefaultEnum))? (":" description=EString)? SEMICOLON;
+
+Range:
+	"[" (value=Number | begin=Number ".." end=Number | numbers+=Number ("," numbers+=Number)+) "]";
+
+enum DefaultEnum:
+	NO_DEFAULT | AUTO;
+
+Enumeration:
+	"[" list+=Enumerator ("," list+=Enumerator)* "]";
+
+Enumerator:
+	name=Name (BLOCKBEGIN (implParameterList+=ImplementationDef)* BLOCKEND)? (description=EString)?;
+
+ImplRefDef:
+	type=ObjectRefTypeEnum name=AttributeName (multiple?=MultipleSpecifier)? (description=EString)? SEMICOLON;
+
+enum ObjectRefTypeEnum:
+	OS_TYPE | TASK_TYPE | COUNTER_TYPE | ALARM_TYPE | RESOURCE_TYPE | EVENT_TYPE | ISR_TYPE | MESSAGE_TYPE | COM_TYPE |
+	NM_TYPE | APPMODE_TYPE | IPDU_TYPE | NETWORKMESSAGE_TYPE;
+
+MultipleSpecifier:
+	"[" "]";
+
+ApplicationDefinition:
+	T_CPU name=Name BLOCKBEGIN (objectDefinitionList+=ObjectDefinition)* BLOCKEND (description=EString)? SEMICOLON;
+
+terminal T_CPU:
+	"CPU";
+
+ObjectDefinition:
+	object=Object name=Name (BLOCKBEGIN (parameterList+=Attribute)* BLOCKEND)? (descrption=EString)? SEMICOLON;
+
+Attribute:
+	name=AttributeName "=" value=AttributeValue (description=EString)? SEMICOLON;
+
+AttributeName:
+	value=(Name | Object);
+
+AttributeValue:
+	NameAttributeValue | BooleanAttributeValue | NumberAttributeValue | FloatAttributeValue | StringAttributeValue |
+	AutoAttributeValue;
+
+NameAttributeValue:
+	value=Name (BLOCKBEGIN (parameterList+=Attribute)* BLOCKEND)?;
+
+BooleanAttributeValue:
+	value=EBoolean (BLOCKBEGIN (parameterList+=Attribute)* BLOCKEND)?;
+
+NumberAttributeValue:
+	value=Number;
+
+FloatAttributeValue:
+	value=EFloat;
+
+StringAttributeValue:
+	value=EString;
+
+AutoAttributeValue:
+	value?="AUTO";
+
+EString returns ecore::EString:
+	STRING;
+
+EBoolean:
+	T_TRUE | T_FALSE;
+
+terminal T_TRUE:
+	"TRUE";
+
+terminal T_FALSE:
+	"FALSE";
+
+Number returns ecore::EInt:
+	T_NUMBER;
+
+terminal T_NUMBER:
+	("+" | "-")? (("0x" ("0".."9" | "a".."f" | "A".."F")+) | (("1".."9") ("0".."9")*) | "0");
+
+EFloat returns ecore::EFloatObject:
+	T_FLOAT;
+
+terminal T_FLOAT:
+	("+" | "-")? ("0"..'9')* "." ("0".."9")* (("e" | "E") ("+" | "-")? ("0".."9")+)?;
+
+Name returns ecore::EString:
+	ID;
+
+terminal ID:
+	("_" | "a".."z" | "A".."Z") ("_" | "a".."z" | "A".."Z" | "0".."9")*;
+
+terminal BLOCKBEGIN:
+	"{";
+
+terminal BLOCKEND:
+	"}";
+
+terminal SEMICOLON:
+	";";

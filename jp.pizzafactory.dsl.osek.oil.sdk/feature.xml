@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="jp.pizzafactory.dsl.osek.oil.sdk"
+	label="Sgoil SDK Feature "
+	version="1.0.0.qualifier">
+	<plugin
+			id="jp.pizzafactory.dsl.osek.oil"
+			download-size="0"
+			install-size="0"
+			version="0.0.0"
+			unpack="false"/>
+	<plugin
+			id="jp.pizzafactory.dsl.osek.oil.ui"
+			download-size="0"
+			install-size="0"
+			version="0.0.0"
+			unpack="false"/>
+</feature>
