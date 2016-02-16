@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: jp.pizzafactory.dsl.osek.oil.ui
 Bundle-Vendor: My Company
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 0.0.1.qualifier
 Bundle-SymbolicName: jp.pizzafactory.dsl.osek.oil.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: jp.pizzafactory.dsl.osek.oil;visibility:=reexport,

@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+
+  <groupId>jp.pizzafactory.dsl.osek.oil</groupId>
+  <artifactId>parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>IDE for OSEK OIL</name>
+
+  <licenses>
+    <license>
+      <name>Eclipse Public License v1.0</name>
+      <comments>
+       All rights reserved.
+
+       This program and the accompanying materials are made
+       available under the terms of the Eclipse Public License v1.0
+       which accompanies this distribution, and is available at
+       http://www.eclipse.org/legal/epl-v10.htm
+      </comments>
+    </license>
+  </licenses>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <xtext.version>2.8.4</xtext.version>
+    <tycho-version>0.24.0</tycho-version>
+    <tycho-extras-version>0.24.0</tycho-extras-version>
+    <tycho-groupid>org.eclipse.tycho</tycho-groupid>
+    <pizzafactory-version>8.5</pizzafactory-version>
+    <github.global.oauth2Token>${env.GH_TOKEN}</github.global.oauth2Token>
+    <jacoco.destFile>${basedir}/../build-target/target/jacoco.exec</jacoco.destFile>
+    <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+  </properties>
+
+  <scm>
+    <connection>scm:git:https://github.com/PizzaFactory/Sgoil.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/PizzaFactory/Sgoil.git</developerConnection>
+    <url>https://github.com/PizzaFactory/Sgoil.git</url>
+    <tag>master</tag>
+  </scm>
+
+  <modules>
+    <module>../build-target</module>
+    <module>../jp.pizzafactory.dsl.osek.oil</module>
+    <module>../jp.pizzafactory.dsl.osek.oil.ui</module>
+    <module>../jp.pizzafactory.dsl.osek.oil.tests</module>
+    <module>../jp.pizzafactory.dsl.osek.oil.sdk</module>
+    <module>../p2update</module>
+  </modules>
+
+  <url>http://www.pizzafactory.jp/</url>
+  <organization>
+	<name>PizzaFactory Project</name>
+	<url>http://www.pizzafactory.jp/</url>
+  </organization>
+  <ciManagement>
+	<system>Travis-CI</system>
+	<url>https://travis-ci.org/PizzaFactory/pizzafactory/Sgoil/</url>
+  </ciManagement>
+
+  <repositories>
+    <repository>
+      <id>PizzaFactroy 8.5 Express</id>
+      <layout>p2</layout>
+      <url>http://update.pizzafactory.jp/8.5/</url>
+    </repository>
+    <repository>
+      <id>PizzaFactory Modeling</id>
+      <layout>p2</layout>
+      <url>http://update.pizzafactory.jp/modeling/8.5/201604150818/</url>
+    </repository>
+    <repository>
+      <id>Utils4MWE</id>
+      <layout>p2</layout>
+      <url>http://pizzafactory.github.io/utils4mwe/p2repo/8.5/0.0.1.v20160227-0707</url>
+    </repository>
+    <repository>
+      <id>CBI License repository</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/cbi/updates/license/</url>
+    </repository>
+    <repository>
+      <id>Orbit</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150124073747/repository/</url>
+    </repository>
+    <repository>
+      <id>Utils4MWE-m2</id>
+      <url>http://pizzafactory.github.io/utils4mwe/m2repo/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <extensions>true</extensions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <artifact>
+            <artifactId>build-target</artifactId>
+          </artifact>
+          <environments>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86_64</arch>
+            </environment>
+          </environments>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>${tycho-groupid}</groupId>
+        <artifactId>tycho-p2-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <executions>
+          <execution>
+            <id>categorization</id>
+            <phase>package</phase>
+            <goals>
+              <goal>category-p2-metadata</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <metadataRepositoryName>IDE for OSEK OIL</metadataRepositoryName>
+          <artifactRepositoryName>IDE for OSEK OIL</artifactRepositoryName>
+          <compressRepository>true</compressRepository>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-p2-repository-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <includeAllDependencies>false</includeAllDependencies>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.8</version>
+        <configuration>
+          <!-- Default configuration for all reports -->
+        </configuration>
+        <executions>
+          <execution>
+            <id>aggregate</id>
+            <goals>
+              <goal>aggregate</goal>
+            </goals>
+            <phase>site</phase>
+            <configuration>
+              <!-- Specific configuration for the aggregate report -->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-versions-plugin</artifactId>
+        <version>${tycho-version}</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.1</version>
+        <configuration>
+          <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+      </plugin>
+
+      <plugin>
+        <groupId>com.github.github</groupId>
+        <artifactId>site-maven-plugin</artifactId>
+        <version>0.12</version>
+        <configuration>
+          <message>Maven artifacts for ${project.version}</message>
+          <noJekyll>true</noJekyll>
+          <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+          <branch>refs/heads/gh-pages</branch>
+          <repositoryName>Sgoil</repositoryName>
+          <repositoryOwner>PizzaFactory</repositoryOwner>
+          <merge>true</merge>
+        </configuration>
+        <executions>
+          <!-- run site-maven-plugin's 'site' target as part of the build's normal 
+            'deploy' phase -->
+          <execution>
+            <id>m2repo</id>
+            <configuration>
+              <includes>
+                <include>**/*</include>
+              </includes>
+              <path>m2repo</path>
+            </configuration>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <phase>deploy</phase>
+          </execution>
+          <execution>
+            <id>site</id>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <phase>site</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <!-- xtend-maven-plugin is in pluginManagement instead of in plugins
+             so that it doesn't run before the exec-maven-plugin's *.mwe2 gen;
+             this way we can list it after. 
+        -->
+        <plugin>
+          <groupId>org.eclipse.xtend</groupId>
+          <artifactId>xtend-maven-plugin</artifactId>
+          <version>${xtext.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>compile</goal>
+                <goal>xtend-install-debug-info</goal>
+                <goal>testCompile</goal>
+                <goal>xtend-test-install-debug-info</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <outputDirectory>xtend-gen</outputDirectory>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+
+        <plugin>
+          <groupId>${tycho-groupid}</groupId>
+          <artifactId>tycho-packaging-plugin</artifactId>
+          <version>${tycho-version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.eclipse.tycho.extras</groupId>
+              <artifactId>tycho-buildtimestamp-jgit</artifactId>
+              <version>${tycho-extras-version}</version>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <strictBinIncludes>false</strictBinIncludes>
+            <format>'v'yyyyMMdd-HHmm</format>
+            <timestampProvider>jgit</timestampProvider>
+            <jgit.ignore>
+              pom.xml
+            </jgit.ignore>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+    <!-- This profile is used to gather code coverage for Sonar -->
+    <profile>
+      <id>codeCoverage</id>
+      <properties>
+        <!-- Properties to enable jacoco code coverage analysis -->
+        <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
+      </properties>
+
+      <build>
+        <plugins>
+          <!-- Enabling use of jacoco -->
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.7.2.201409121644</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+                <configuration>
+                  <!-- Where to put jacoco coverage report -->
+                  <destFile>${sonar.jacoco.reportPath}</destFile>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <distributionManagement>
+    <repository>
+      <id>internal.repo</id>
+      <name>Temporary Staging Repository</name>
+      <url>file://${project.build.directory}/mvn-repo</url>
+    </repository>
+  </distributionManagement>
+</project>
