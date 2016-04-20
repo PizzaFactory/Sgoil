@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<units size='1'>
+  <unit id='v20160420-0744.IDE for OSEK OIL' version='1.0.0.0-1cGqznr8s735E3A7313GAA'>
+    <properties size='3'>
+      <property name='org.eclipse.equinox.p2.name' value='IDE for OSEK OIL'/>
+      <property name='org.eclipse.equinox.p2.description' value='IDE components for OSEK OIL files.'/>
+      <property name='org.eclipse.equinox.p2.type.category' value='true'/>
+    </properties>
+    <provides size='1'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='v20160420-0744.IDE for OSEK OIL' version='1.0.0.0-1cGqznr8s735E3A7313GAA'/>
+    </provides>
+    <requires size='1'>
+      <required namespace='org.eclipse.equinox.p2.iu' name='jp.pizzafactory.dsl.osek.oil.sdk.feature.group' range='[0.0.1.v20160420-0744,0.0.1.v20160420-0744]'/>
+    </requires>
+    <touchpoint id='null' version='0.0.0'/>
+  </unit>
+</units>
