@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/jp.pizzafactory.dsl.osek.oil_0.0.1.qualifier.jar" id="jp.pizzafactory.dsl.osek.oil" version="0.0.1.qualifier">
+   <feature url="features/jp.pizzafactory.dsl.osek.oil.sdk_0.0.1.qualifier.jar" id="jp.pizzafactory.dsl.osek.oil.sdk" version="0.0.1.qualifier">
       <category name="IDE for OSEK OIL"/>
    </feature>
    <category-def name="IDE for OSEK OIL" label="IDE for OSEK OIL">
