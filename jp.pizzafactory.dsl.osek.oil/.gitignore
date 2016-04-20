@@ -4,3 +4,4 @@
 /.launch/
 /plugin.xml_gen
 /.antlr-generator-3.2.0-patch.jar
+/model/generated/
